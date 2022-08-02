@@ -1,4 +1,4 @@
-## normalized to individual conditions for the same genotype (regress treatment)
+## This script starts with data cleaning and redefine catagories, followed by normalization calculation for genotype or treatment.
 
 rm(list = ls())    #clear environment
 #sert_data <- read.csv(file.choose())
@@ -51,10 +51,7 @@ rm(list = ls())    #clear environment
     sert_data<-rename(sert_data,c("K.Type1.p"="X.ki67type1.type1" ))
     sert_data<-rename(sert_data,c("K.Type2a.p"="X.ki67type2a.type2a" ))
     sert_data<-rename(sert_data,c("K.Sox2.p"="X.ki67sox2.sox2" ))
-    
-    
-    
-    
+
     # sert_data<-rename(sert_data,c("K.Type1.p"="X.Ki67.type.1" ))
     # sert_data<-rename(sert_data,c("K.Type2.p"="X.Ki67.type.2" ))
     # sert_data<-rename(sert_data,c("K.Type3.p"="X.Ki67.type.3" ))
@@ -142,8 +139,9 @@ rm(list = ls())    #clear environment
   }
   
   
-  # Define Functions
-  {
+  ## normalized to individual conditions for the same genotype (regress treatment)
+  # Define Functions for normalization
+    {
     # function: Normalized score
     norm.sc <- function(newData, inData, meanTable) {
       newData <- inData
@@ -163,10 +161,9 @@ rm(list = ls())    #clear environment
   stress_norm.sc <- norm.sc(stress_norm.sc, stress_data, baseline_mean)
   # FLX_norm.sc <- norm.sc(FLX_norm.sc, FLX_data, PBS_mean)
   #sert_norm.sc <- rbind(stress_norm.sc,FLX_norm.sc)
+    
   
-  
-  
-  # divide raw dataset by 10000 for export plot
+  # divide raw dataset by 10000 for export plots
   {
   stress_data_2<-stress_data
   stress_data_2[,6:15]<-stress_data_2[,6:15]/10000
@@ -212,7 +209,7 @@ write.csv(WTKO_norm.sc, 'stress_WTKOnorm.sc_v13.csv')
 
 
 ######################################################################################
-
+## Exploratory heatmap plots for the dataset
 
 ## measure mean of stress/FLX dataset 
 stress_norm.sc_ratio <- subset(stress_norm.sc,Treatment == "Stress")
@@ -220,7 +217,6 @@ stress.norm.sc_mean <- aggregate(stress_norm.sc_ratio[,4:14], list(stress_norm.s
 
 FLX_norm.sc_ratio <- subset(FLX_norm.sc,Treatment == "FLX")
 FLX.norm.sc_mean <- aggregate(FLX_norm.sc_ratio[,4:14], list(FLX_norm.sc_ratio$Group), mean)
-
 
 ## heatmap for combined dataset
 rbinded_mean <- rbind(stress.norm.sc_mean,FLX.norm.sc_mean)
@@ -254,120 +250,3 @@ ggplot()+geom_tile(aes(x=h2$var,y=h2$Group,fill=h2$value))+
 
 a<-as.matrix(rbinded_mean)
 heatmap.2(a,trace="none")
-
-
-
-
-
-
-
-#########################################################################################
-#overview plots
-plot(stress_F_data,pch=20, cex=0.5, col='red')
-plot(stress_M_data,pch=20, cex=0.5, col='blue')
-
-#RFP
-ggplot(stress_data)+aes(x = RFP, color = Group )+geom_density(alpha = 0.35)
-ggplot(stress_data)+aes(x = RFP, fill = Group )+geom_density(alpha = 0.35)+
-  ggtitle("Stress RFP")
-ggplot(stress_data,aes(x = Group, y = RFP)) + geom_boxplot(fill=rainbow(8))+
-  geom_jitter(width=.1)+theme_classic()
-
-ggplot(stress_norm.sc,aes(x = Group, y = RFP)) + geom_boxplot(fill=rainbow(8))+
-  geom_jitter(width=.1)+theme_classic()
-ggplot(stress_mean.df,aes(x = Group, y = RFP)) + geom_boxplot(fill=rainbow(8))+
-  geom_jitter(width=.1)+theme_classic()
-
-
-ggplot(stress_data)+aes(x = Ki67.p, fill = Group)+geom_density(alpha = 0.35)+
-  ggtitle("Stress Ki67%")+ theme_classic()
-
-
-#lm for groups
-ggplot(stress_data, aes(x = Type2.p, y = RFP, color=Gender))+
-  geom_point()+ geom_smooth(method=glm)+ facet_grid(~Gender)+ theme_classic()
-
-ggplot(stress_F_data, aes(x = Type2.p, y = Sox2, color=Group))+
-  geom_point()+ geom_smooth(method=lm)+ facet_grid(~Group)+ theme_classic()
-
-ggplot(stress_M_data, aes(x = Ki67.p, y = RFP, color=Group))+
-  geom_point()+ geom_smooth(method=lm)+ facet_grid(~Group)+ theme_classic()
-
-ggplot(stress_F_data, aes(color=Group))+
-  geom_point()+ geom_smooth(method=lm)+ theme_classic()
-
-ggplot(sert_data, aes(x = RFP, y = sertVol.p2, color=Group))+
-  geom_point()+ geom_smooth(method=glm)+ facet_grid(~Gender)+ theme_classic()
-
-ggplot(baseline_data, aes(x = Type1.p, y = sertVol.p, color=Group))+
-  geom_point()+ geom_smooth(method=glm)+ facet_grid(~Gender)+ theme_classic()
-
-ggscatter(baseline_data, x = "Type1", y = "sertVol.p",
-          add = "reg.line", conf.int = TRUE, 
-          cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Type1", ylab = "sertVol%")+ facet_grid(~Group)+ theme_classic()
-
-ggscatter(baseline_data, x = "Type1", y = "sertVol.p",
-          add = "reg.line", conf.int = TRUE, 
-          cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Type1", ylab = "sertVol%")+ facet_grid(~Group)+ theme_classic()
-
-
-###########################################################################################
-# PCA
-stress.pca <- prcomp(sert_data[,c(4:14)])
-
-summary(stress.pca)
-plot(stress.pca$x[,1], stress.pca$x[,2])
-plot(stress.pca)
-fviz_pca_ind(stress.pca,
-             repel = TRUE     # Avoid text overlapping
-)
-
-
-# raw cell density
-ANOVA_Ki67<-aov(lm(Ki67~Gender*Genotype*Treatment,stress_data))
-summary(ANOVA_Ki67)
-TukeyHSD(ANOVA_Ki67)
-
-capture.output(summary(ANOVA_Ki67),file="Ki67_results.txt")
-write.table(summary(ANOVA_Ki67),file="Ki67_results.csv",sep=",")
-
-
-ANOVA_results<-aov(lm(output~genotype+treatment+gender+
-                        genotype:treatment+treatment:gender+genotype:gender,sert_data))
-{
-  kruskal.test(sert_data$df[sert_data$genotype=="wt" & sert_data$treatment=="FLX" & sert_data$gender=="F"], 
-               sert_data$df[sert_data$genotype=="wt" & sert_data$treatment=="PBS" & sert_data$gender=="F"],
-               sert_data$df[sert_data$genotype=="ko" & sert_data$treatment=="FLX" & sert_data$gender=="F"],
-               sert_data$df[sert_data$genotype=="ko" & sert_data$treatment=="PBS" & sert_data$gender=="F"])
-  
-  a1=sert_data$df[sert_data$genotype=="wt" & sert_data$treatment=="FLX" & sert_data$gender=="F"]
-  a2=sert_data$df[sert_data$genotype=="wt" & sert_data$treatment=="PBS" & sert_data$gender=="F"]
-  a3=sert_data$df[sert_data$genotype=="ko" & sert_data$treatment=="FLX" & sert_data$gender=="F"]
-  a4=sert_data$df[sert_data$genotype=="ko" & sert_data$treatment=="PBS" & sert_data$gender=="F"]
-  
-  
-  
-  d=data.frame(a1,a2,a3,a4)
-  for(i in 1:4){
-    for(j in 1:4)
-    {
-      if(i!=j)
-        wilcox.test(d[,i],d[,j])
-    }
-  }
-  
-  wilcox.test(d[,1],d[,2])
-  wilcox.test(d[,1],d[,3])
-  wilcox.test(d[,1],d[,4])
-  wilcox.test(d[,2],d[,3])
-  wilcox.test(d[,2],d[,4])
-  wilcox.test(d[,3],d[,4])
-  
-  p=c(0.3829,0.1282,0.7104,0.4557,0.7104,0.03788)
-  p.adjust(p,method = 'BH')
-  
-  
-  boxplot(a1,a2,a3,a4)
-}
