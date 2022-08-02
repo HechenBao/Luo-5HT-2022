@@ -1,4 +1,4 @@
-% Select data directory to exceute all functions and output results
+% Input data directory to exceute all functions and output results
 
 %% FLX
 GRAB5HT_FLX_bp('D:\5HT sensor\GRAB5HT photometry\A_Male\Male_FLX');
