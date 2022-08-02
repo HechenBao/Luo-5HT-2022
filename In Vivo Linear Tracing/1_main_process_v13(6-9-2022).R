@@ -1,4 +1,4 @@
-## This script starts with data cleaning and redefine catagories, followed by normalization calculation for genotype or treatment.
+## This script starts with data cleaning and re-define of catagories, followed by normalization calculation for genotype or treatment.
 
 rm(list = ls())    #clear environment
 #sert_data <- read.csv(file.choose())
