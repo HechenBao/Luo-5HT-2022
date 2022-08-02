@@ -1,4 +1,4 @@
-function [] = GRAB5HT_saline_var(path_folder) % batch process function
+function [] = GRAB5HT_saline_var(path_folder) % function for extract variables
 % get subfolders for batch process
 % get a list of all files and folders in this folder.
 files = dir(path_folder);
