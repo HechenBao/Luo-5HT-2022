@@ -1,3 +1,5 @@
+## This script uses Random Forest algorithm to cross validate the sex difference of linear tracing data. 
+
 rm(list = ls())    #clear environment
 {
   #load library
