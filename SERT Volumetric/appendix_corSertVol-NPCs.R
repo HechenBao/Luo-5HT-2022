@@ -1,4 +1,4 @@
-### This script is used to measure the correlation of SERT volumetric and density of different neural precursors.
+### This script is used to measure the correlation of SERT volume and density of different neural precursors.
 
 {
 #load library
