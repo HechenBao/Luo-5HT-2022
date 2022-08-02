@@ -1,4 +1,4 @@
-function [] = indv_stress(path_data)
+function [] = indv_stress(path_data) % function for loading raw data and pre-processing
 %% loading data for individual mice
 %path_data = pwd;                        % get pathway
 baseline = dir(fullfile(path_data, ['*_baseline_*.mat']));     
