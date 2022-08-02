@@ -1,4 +1,4 @@
-function [] = indv_FLX(path_data)
+function [] = indv_FLX(path_data)  % pre-process function
 %% loading data for individual mice
 %path_data = pwd;                        % get pathway
 baseline = dir(fullfile(path_data, ['*_baseline_*.mat']));     
