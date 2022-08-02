@@ -1,3 +1,5 @@
+# This script is to normalize SERT volume to ROI mask volume. 
+
 rm(list = ls())    #clear environment
 
 {
