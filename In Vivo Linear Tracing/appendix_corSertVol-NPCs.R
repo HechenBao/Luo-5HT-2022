@@ -1,4 +1,4 @@
-### correlation of SertVol vs NPCs
+### This script is used to measure the correlation of SERT volumetric and density of different neural precursors.
 
 {
 #load library
@@ -161,11 +161,6 @@ SertVol.group.plot<-ggarrange(g1, g2, g3, g4, g5,
 SertVol.group.plot
 }
 
-
-################################################
-
-# haven't updated
-
 # baseline by genotype
 {
   g1<-ggscatter(baseline_data_2, x = "RFP", y = "sertVol.p2",
@@ -222,9 +217,3 @@ SertVol.group.plot
   SertVol.group.plot
 }
 
-# 
-g1<-ggscatter(baseline_data, x = "Ki67", y = "sertVol.p2",
-              add = "reg.line", conf.int = TRUE, 
-              cor.coef = TRUE, cor.method = "pearson",
-              xlab = "Ki67", ylab = "sertVol%")+ facet_grid(~Gender)+ 
-              theme_classic()
