@@ -1,6 +1,6 @@
 % Select data directory to exceute all functions and output results
 
-% %% FLX
+%% FLX
 GRAB5HT_FLX_bp('D:\5HT sensor\GRAB5HT photometry\A_Male\Male_FLX');
 clc
 clear
@@ -18,7 +18,7 @@ clc
 clear
 
 
-% %% saline
+%% saline
 GRAB5HT_saline_bp('D:\5HT sensor\GRAB5HT photometry\A_Male\Male_saline');
 clc
 clear
