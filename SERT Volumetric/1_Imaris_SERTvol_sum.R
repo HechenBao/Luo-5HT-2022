@@ -173,26 +173,3 @@ print(normalizedmatrix)
 #output as csv file Normalized matrix file = object_volume/ROI_volume this can be graphed directly
 write.csv(normalizedmatrix, file = paste0(datadirectory,paste("normalizedmatrix_output",paths)))
 
-############################################################################################################################
-#Don't run the rest of this code this is testing data normalization methods
-normscale <- scale(normalizedmatrix)
-barplot(as.matrix(normscale),main = "Z score normalized", ylab = "Z score", xlab = "Animals", col = c("azure","azure1","azure2","azure3","lightblue","pink","yellow"))
-
-ggplot(as.data.frame(normalizedmatrix), aes(x = animalnames))+
-  theme_bw()+
-  facet_grid()+
-  geom_bar(color ="red", fill)+
-  labs(y = "Normalized Volue",
-       title = "Normalied matrix bar plot")
-
-sumnormalizedmatrix <- sapply(normalizedmatrix, sum)
-
-print(sumnormalizedmatrix)
-print(sumnormalizedmatrix)
-
-sumnormalizedmatrix <- sapply(normalizedmatrix, sum)
-
-#plot(emptymatrix,normalizedmatrix,col= alpha(c("black","azure1","azure2","azure3","lightblue","green","red","purple","orange","lightgreen"),.8),pch = 15,cex=1,
-#     xlab = "Sections", 
-#     ylab="Normalized Object Volume",
-#     main ="Normalized volume acros sections")
