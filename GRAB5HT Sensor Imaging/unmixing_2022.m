@@ -1,7 +1,7 @@
 function [] = unmixing_2022
 %%
 % Read raw mixed spectra time series from Oceanview output, and unmix the spectra time series one by one using user defined spectra reference.
-% Tzu-Hao Harry Chao 2020/02/14
+% modified by Hechen Bao 2022/12/2, orignal Harry Tzu-Hao Chao
 %%
 
 clc
